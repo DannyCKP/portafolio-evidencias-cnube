@@ -1,0 +1,218 @@
+/* =============================================================
+   1. Tokens
+   ============================================================= */
+:root {
+  --bg:       #f7f8fa;
+  --bg-2:     #eef1f6;
+  --surface:  #ffffff;
+  --ink:      #14213d;
+  --ink-2:    #3d4a63;
+  --ink-3:    #6b7891;
+  --accent:   #2563eb;
+  --accent-2: #1d4ed8;
+  --accent-soft: #e8eefd;
+  --warn:     #b45309;
+  --warn-bg:  #fef3e2;
+  --warn-line:#f2d39a;
+  --line:     rgba(20, 33, 61, .1);
+
+  --sans: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", monospace;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --nav-h: 64px;
+}
+
+/* =============================================================
+   2. Reset & base
+   ============================================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 16px); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; }
+[hidden] { display: none !important; }
+a { color: var(--accent); text-decoration: none; }
+h1, h2, h3 { font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; color: var(--ink); }
+p { text-wrap: pretty; }
+code { font-family: var(--mono); background: var(--bg-2); padding: .1rem .4rem; border-radius: 6px; font-size: .9em; }
+ul { padding-left: 0; list-style: none; }
+
+.skip-link {
+  position: fixed; top: -100px; left: 1rem; padding: .6rem 1rem;
+  background: var(--ink); color: #fff; z-index: 9999; border-radius: 8px; font-weight: 600;
+}
+.skip-link:focus { top: 1rem; }
+
+.kicker {
+  font-family: var(--mono); font-size: .76rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--accent-2); font-weight: 600;
+}
+.kicker-muted { color: var(--ink-3); margin-top: .2rem; }
+
+/* =============================================================
+   3. Nav
+   ============================================================= */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500; height: var(--nav-h);
+  display: flex; align-items: center; background: rgba(247, 248, 250, .9);
+  border-bottom: 1px solid transparent; transition: border-color .3s var(--ease-out);
+}
+@supports (backdrop-filter: blur(10px)) { .nav { backdrop-filter: blur(10px) saturate(160%); } }
+.nav.is-solid { border-color: var(--line); box-shadow: 0 2px 16px rgba(20,33,61,.05); }
+.nav-inner { width: 100%; max-width: 1000px; margin-inline: auto; padding-inline: 1.5rem; display: flex; align-items: center; gap: 2rem; }
+.nav-brand { font-weight: 800; margin-right: auto; color: var(--ink); }
+.nav-links { display: none; gap: 1.5rem; }
+.nav-links a { font-size: .9rem; color: var(--ink-2); font-weight: 600; }
+.nav-links a:hover { color: var(--accent); }
+.nav-burger { width: 38px; height: 38px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; background: none; border: 0; cursor: pointer; }
+.nav-burger span { width: 20px; height: 2px; background: var(--ink); border-radius: 2px; transition: transform .3s var(--ease-out), opacity .3s var(--ease-out); }
+.nav-burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav-burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.nav-links.is-open {
+  display: flex; flex-direction: column; position: fixed; top: var(--nav-h); left: 0; right: 0;
+  background: var(--surface); border-bottom: 1px solid var(--line); padding: .4rem 1.5rem 1.2rem;
+}
+.nav-links.is-open a { padding: .8rem 0; border-bottom: 1px solid var(--line); }
+@media (min-width: 800px) { .nav-links { display: flex; } .nav-burger { display: none; } }
+
+/* =============================================================
+   4. Portada
+   ============================================================= */
+.cover {
+  padding: calc(var(--nav-h) + 4rem) 1.5rem 4rem;
+  background: linear-gradient(180deg, var(--accent-soft) 0%, var(--bg) 70%);
+  text-align: center;
+}
+.cover-inner { max-width: 700px; margin-inline: auto; }
+.cover h1 { font-size: clamp(2rem, 5vw, 3rem); margin-top: 1rem; }
+.cover h1 em { font-style: italic; color: var(--accent); }
+.cover-meta {
+  margin-top: 2.4rem; display: flex; flex-direction: column; gap: .9rem;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 1.6rem;
+  text-align: left; box-shadow: 0 12px 32px rgba(20,33,61,.06);
+}
+.cover-meta > div { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; border-bottom: 1px solid var(--line); padding-bottom: .8rem; }
+.cover-meta > div:last-child { border-bottom: 0; padding-bottom: 0; }
+.cover-meta dt { font-family: var(--mono); font-size: .74rem; text-transform: uppercase; color: var(--ink-3); }
+.cover-meta dd { font-weight: 700; }
+[data-editable] { color: var(--warn); background: var(--warn-bg); padding: .1rem .5rem; border-radius: 6px; }
+.cover-edit-note { margin-top: 1.2rem; font-size: .82rem; color: var(--warn); }
+
+/* =============================================================
+   5. Índice
+   ============================================================= */
+.toc { padding: 3rem 1.5rem; }
+.toc-inner { max-width: 700px; margin-inline: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 1.8rem; }
+.toc-inner ol { counter-reset: toc; display: flex; flex-direction: column; gap: .6rem; margin-top: 1rem; }
+.toc-inner li { counter-increment: toc; font-weight: 600; }
+.toc-inner li::before { content: counter(toc) ". "; color: var(--accent); font-family: var(--mono); }
+.toc-inner a { color: var(--ink); }
+.toc-inner a:hover { color: var(--accent); }
+
+/* =============================================================
+   6. Sections general
+   ============================================================= */
+.section { max-width: 800px; margin: 0 auto; padding: 3.5rem 1.5rem; border-top: 1px solid var(--line); }
+.section h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-top: .5rem; }
+.section h3 { font-size: 1.15rem; margin-top: 2rem; }
+.section p { margin-top: 1rem; color: var(--ink-2); }
+.section-note { font-size: .88rem; color: var(--ink-3); }
+.section--pending { background: var(--bg-2); border-radius: 20px; border-top: 1px solid var(--line); }
+
+.check-list { margin-top: 1.2rem; display: flex; flex-direction: column; gap: .7rem; }
+.check-list li { padding-left: 1.6rem; position: relative; color: var(--ink-2); }
+.check-list li::before { content: "✓"; position: absolute; left: 0; color: var(--accent); font-weight: 800; }
+
+/* =============================================================
+   7. Buttons & form fields
+   ============================================================= */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
+  padding: .7rem 1.3rem; border-radius: 10px; font-family: var(--sans); font-weight: 700; font-size: .9rem;
+  border: 0; cursor: pointer; transition: transform .25s var(--ease-out), box-shadow .25s var(--ease-out), background .25s var(--ease-out);
+}
+.btn-primary { background: var(--accent); color: #fff; box-shadow: 0 8px 20px rgba(37,99,235,.28); }
+.btn-primary:hover { background: var(--accent-2); transform: translateY(-1px); }
+.btn-ghost { background: var(--surface); border: 1.5px solid var(--line); color: var(--ink); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent-2); }
+
+.field { display: flex; flex-direction: column; gap: .35rem; margin-top: 1rem; }
+.field label { font-family: var(--mono); font-size: .72rem; text-transform: uppercase; color: var(--ink-3); letter-spacing: .03em; }
+.field input, .field textarea {
+  background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: .65rem .85rem;
+  font-family: var(--sans); font-size: .92rem; color: var(--ink);
+}
+.field input:focus, .field textarea:focus { outline: none; border-color: var(--accent); }
+.field textarea { resize: vertical; }
+
+/* =============================================================
+   7b. Add-evidence form
+   ============================================================= */
+.add-form { margin-top: 1.6rem; }
+.add-form-fields {
+  margin-top: 1rem; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 1.6rem;
+}
+.add-form-grid { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+@media (min-width: 640px) { .add-form-grid { grid-template-columns: repeat(3, 1fr); } }
+.add-form-grid .field { margin-top: 0; }
+.add-form-actions { margin-top: 1.4rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.add-form-status { font-size: .85rem; color: var(--accent-2); font-weight: 600; }
+.btn-export { margin-top: 2rem; }
+
+.evidencia-user-badge {
+  font-family: var(--mono); font-size: .68rem; text-transform: uppercase; color: var(--ink-3);
+  background: var(--bg-2); padding: .2rem .5rem; border-radius: 999px;
+}
+.evidencia-delete { margin-top: 1rem; font-size: .82rem; color: #b91c1c; background: none; border: 0; cursor: pointer; padding: 0; font-weight: 600; }
+.evidencia-delete:hover { text-decoration: underline; }
+
+/* =============================================================
+   8. Evidencia cards
+   ============================================================= */
+.evidencias-list { margin-top: 1.6rem; display: flex; flex-direction: column; gap: 1.4rem; }
+.evidencia-card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 1.8rem;
+  box-shadow: 0 10px 28px rgba(20,33,61,.05);
+}
+.evidencia-head { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; justify-content: space-between; }
+.evidencia-tag { font-family: var(--mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .04em; color: var(--accent-2); background: var(--accent-soft); padding: .25rem .6rem; border-radius: 999px; }
+.evidencia-fecha { font-family: var(--mono); font-size: .78rem; color: var(--ink-3); }
+.evidencia-card h3 { font-size: 1.25rem; margin-top: .6rem; color: var(--ink); }
+.evidencia-objetivo { margin-top: .5rem; font-style: italic; color: var(--ink-3); font-size: .92rem; }
+.evidencia-block { margin-top: 1.1rem; }
+.evidencia-block h4 { font-size: .82rem; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-3); font-family: var(--mono); font-weight: 600; }
+.evidencia-block p, .evidencia-block ul { margin-top: .4rem; }
+.evidencia-block ul { display: flex; flex-direction: column; gap: .4rem; }
+.evidencia-block ul li { padding-left: 1.2rem; position: relative; color: var(--ink-2); font-size: .95rem; }
+.evidencia-block ul li::before { content: "—"; position: absolute; left: 0; color: var(--accent); }
+.reflexion-box { background: var(--bg-2); border-radius: 12px; padding: 1rem 1.1rem; margin-top: .4rem; }
+.draft-badge {
+  display: inline-block; margin-bottom: .5rem; font-family: var(--mono); font-size: .68rem; text-transform: uppercase;
+  color: var(--warn); background: var(--warn-bg); border: 1px solid var(--warn-line); padding: .2rem .55rem; border-radius: 999px;
+}
+.evidencia-anexo { margin-top: 1.2rem; }
+.evidencia-anexo a {
+  display: inline-flex; align-items: center; gap: .4rem; font-weight: 700; font-size: .88rem;
+  border: 1px solid var(--line); border-radius: 10px; padding: .5rem .9rem;
+}
+.evidencia-anexo a:hover { border-color: var(--accent); }
+
+/* =============================================================
+   8. Anexos list
+   ============================================================= */
+.anexos-list { margin-top: 1.4rem; display: flex; flex-direction: column; gap: .7rem; }
+.anexos-list li { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: .9rem 1.2rem; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.anexos-list a { font-weight: 700; }
+
+/* =============================================================
+   9. Footer
+   ============================================================= */
+.footer { text-align: center; padding: 2.4rem 1.5rem; font-size: .82rem; color: var(--ink-3); border-top: 1px solid var(--line); }
